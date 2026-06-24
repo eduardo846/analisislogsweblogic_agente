@@ -62,6 +62,6 @@ reports/               ← Output del agente
 
 ## Entornos configurados
 
-- **ARG PRD**: alarp014, alarp015 — WebLogic 12.2.1.x
-- **COL PRD**: xstco-server1 — XStore/OracleRetail + RESA_BROADCASTER
+- **ARG PRD**: detectado automáticamente desde logs
+- **COL PRD**: detectado automáticamente desde logs
 - **VEN PRD**: detectado automáticamente desde logs
