@@ -31,6 +31,19 @@ cp /ruta/al/ManagedServer1.log ./logs/
 | `/stuck-threads`                | Foco en STUCK threads y deadlocks           |
 | `/oom-check`                    | Foco en OOM y problemas de memoria          |
 | `/summary xstco-server1`        | Genera reporte Markdown en ./reports/       |
+| `/investigate [archivo.log]`    | Flujo multiagente: triage → especialistas → reporte |
+
+### Flujo multiagente (`/investigate`)
+
+```
+wls-triage ──► especialistas en paralelo ──► correlación ──► wls-reporter
+               ├─ wls-stuck-threads  (BEA-000802, deadlocks)
+               ├─ wls-memory         (OOM, GC, Metaspace)
+               ├─ wls-jdbc           (BEA-001129/1153, ORA-*, RESA_BROADCASTER)
+               └─ wls-deploy-state   (BEA-149265, FAILED, transiciones)
+```
+
+El triage decide qué especialistas se lanzan según la evidencia del log. Solo `wls-reporter` escribe, y únicamente en `./reports/`.
 
 ### Ejemplos de uso en lenguaje natural
 
@@ -50,7 +63,15 @@ cp /ruta/al/ManagedServer1.log ./logs/
 ```
 .claude/
 ├── settings.json      ← Permisos (qué puede ejecutar el agente)
+├── agents/            ← Subagentes del flujo /investigate
+│   ├── wls-triage.md
+│   ├── wls-stuck-threads.md
+│   ├── wls-memory.md
+│   ├── wls-jdbc.md
+│   ├── wls-deploy-state.md
+│   └── wls-reporter.md
 └── commands/          ← Slash commands personalizados
+    ├── investigate.md
     ├── analyze.md
     ├── stuck-threads.md
     ├── oom-check.md
